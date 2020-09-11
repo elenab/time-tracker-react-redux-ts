@@ -5,22 +5,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can use:
 
-### `yarn start`
+### `npm run dev`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
+It will also start full fake REST API JSON Server
+http://localhost:3001/events
+
+### `npm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -31,8 +32,16 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
-## Learn More
+## Json fake server
+Run it locally:\
+` npx json-server --watch json-server/db.json --port 3001`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Query events endpoint:
+```
+curl http://localhost:3001/events
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Try to post something:
+```
+curl -X POST -H "Content-Type: application/json" -d '{"title": "Learning Typescript", "dateStart": "2020-09-11T13:00:15.180Z", "dateEnd": "2020-09-11T15:00:00.180Z"}'  http://localhost:3001/events
+```

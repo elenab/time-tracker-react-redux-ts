@@ -1,0 +1,22 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Workout",
+      "dateStart": "2020-09-11T15:17:15.180Z",
+      "dateEnd": "2020-09-11T16:17:15.180Z"
+    },
+    {
+      "id": 1,
+      "title": "Lunch",
+      "dateStart": "2020-09-11T12:00:15.180Z",
+      "dateEnd": "2020-09-11T13:00:15.180Z"
+    },
+    {
+      "title": "Learning Typescript",
+      "dateStart": "2020-09-11T13:00:15.180Z",
+      "dateEnd": "2020-09-11T15:00:00.180Z",
+      "id": 2
+    }
+  ]
+}
