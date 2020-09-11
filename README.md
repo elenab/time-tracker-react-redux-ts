@@ -1,7 +1,6 @@
 # Time tracker app with React, Redux and TypeScript
-
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was creating while taking [Using Typescript with React](https://www.udemy.com/course-dashboard-redirect/?course_id=2321154) course on Udemy.\
+Also, it was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
