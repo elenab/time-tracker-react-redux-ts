@@ -110,23 +110,23 @@ export const createUserEvent = (): ThunkAction<
 };
 
 const DELETE_REQUEST = 'userEvents/delete_request';
-interface DeleteRequestAction extends Action <typeof DELETE_REQUEST> {};
+interface DeleteRequestAction extends Action<typeof DELETE_REQUEST> { };
 
 const DELETE_SUCCESS = 'userEvents/delete_success';
-interface DeleteSuccessAction extends Action <typeof DELETE_SUCCESS> {
+interface DeleteSuccessAction extends Action<typeof DELETE_SUCCESS> {
     payload: {
         id: UserEvent['id']
     }
 };
 
 const DELETE_ERROR = 'userEvents/delete_error';
-interface DeleteErrorAction extends Action <typeof DELETE_ERROR> {
+interface DeleteErrorAction extends Action<typeof DELETE_ERROR> {
     error: string
 };
 
 export const deleteUserEvent = (
     id: UserEvent['id']
-    ): ThunkAction<
+): ThunkAction<
     Promise<void>,
     RootState,
     undefined,
@@ -135,23 +135,72 @@ export const deleteUserEvent = (
             type: DELETE_REQUEST
         });
         try {
-            const response =  await fetch(`http://localhost:3001/events/${id}`, {
+            const response = await fetch(`http://localhost:3001/events/${id}`, {
                 method: 'DELETE'
-              });
+            });
 
             if (response.ok) {
                 dispatch({
                     type: DELETE_SUCCESS,
-                    payload: {id}
+                    payload: { id }
                 })
             }
-        } catch(e) {
+        } catch (e) {
             dispatch({
                 type: DELETE_ERROR,
                 error: 'Delete User Event error.'
             })
         }
     };
+
+
+
+const UPDATE_REQUEST = 'userEvents/update_request';
+
+interface UpdateEventAction extends Action<typeof UPDATE_REQUEST> { };
+
+const UPDATE_SUCCESS = 'userEvents/update_success';
+interface UpdateSuccessAction extends Action<typeof UPDATE_SUCCESS> {
+    payload: {
+        event: UserEvent;
+    };
+};
+
+const UPDATE_ERROR = 'userEvents/update_error';
+interface UpdatErrorAction extends Action<typeof UPDATE_ERROR> {
+    error: string;
+};
+export const updateUserEvent = (event: UserEvent): ThunkAction<
+    Promise<void>,
+    RootState,
+    undefined,
+    UpdateEventAction | UpdateSuccessAction | UpdatErrorAction
+> => async (dispatch, getState) => {
+    dispatch({
+        type: UPDATE_REQUEST
+    });
+
+    try {
+        const response = await fetch(`http://localhost:3001/events/${event.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(event)
+        });
+
+        const updatedEvent: UserEvent = await response.json();
+        dispatch({
+            type: UPDATE_SUCCESS,
+            payload: { event: updatedEvent }
+        });
+    } catch (e) {
+        dispatch({
+            type: UPDATE_ERROR,
+            error: 'Failed to update event.'
+        })
+    }
+};
 
 const selectUserEventsState = (rootState: RootState) => rootState.userEvents;
 
@@ -166,7 +215,7 @@ const initialState: UserEventsState = {
 }
 const userEventsReducer = (
     state: UserEventsState = initialState,
-    action: LoadSuccessAction | CreateSuccessAction | DeleteSuccessAction
+    action: LoadSuccessAction | CreateSuccessAction | DeleteSuccessAction | UpdateSuccessAction
 ) => {
     switch (action.type) {
         case LOAD_SUCCESS:
@@ -181,19 +230,26 @@ const userEventsReducer = (
         case CREATE_SUCCESS:
             const { event } = action.payload
             return {
-                ...state, 
-                allIds: [...state.allIds, event.id], 
-                byIds: {...state.byIds, [event.id]: event}
+                ...state,
+                allIds: [...state.allIds, event.id],
+                byIds: { ...state.byIds, [event.id]: event }
             };
         case DELETE_SUCCESS:
             const { id } = action.payload;
             const newState = {
                 ...state,
-                byIds: {...state.byIds },
-                allIds: state.allIds.filter( storedId => storedId !==id)
+                byIds: { ...state.byIds },
+                allIds: state.allIds.filter(storedId => storedId !== id)
             };
             delete newState.byIds[id];
-            return newState ;
+            return newState;
+        case UPDATE_SUCCESS:
+            const {event: updatedEvent} = action.payload;
+            return {
+                ...state, 
+                byIds: {...state.byIds, [updatedEvent.id]:updatedEvent}
+            };
+
         default:
             return state;
     }
