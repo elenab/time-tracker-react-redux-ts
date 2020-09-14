@@ -2,8 +2,13 @@ import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import './Calendar.css';
 import { RootState } from '../../redux/store';
-import { selectUserEventsArray, loadUserEvents, UserEvent } from '../../redux/user-events';
+import {
+  selectUserEventsArray,
+  loadUserEvents,
+  UserEvent
+} from '../../redux/user-events';
 import { addZero } from '../../lib/utils';
+import EventItem from './EventItem';
 
 const mapState = (state: RootState) => ({
     events: selectUserEventsArray(state)
@@ -50,7 +55,7 @@ const groupEventsByDay = (events: UserEvent[]) => {
 
 const Calendar: React.FC<Props> = ({ events, loadUserEvents }) => {
     useEffect(() => {
-        loadUserEvents();
+      loadUserEvents();
     }, []);
 
     let groupedEvents: ReturnType<typeof groupEventsByDay> | undefined;
@@ -72,26 +77,19 @@ const Calendar: React.FC<Props> = ({ events, loadUserEvents }) => {
                 const month = groupDate.toLocaleString(undefined, { month: 'long' });
 
                 return (
-                    <div className="calendar-day">
+                    <div key={dayKey} className="calendar-day">
                         <div className="calendar-day-label">
-                            <span>{day} {month}</span>
+                            <span>
+                                {day} {month}
+                            </span>
                         </div>
                         <div className="calendar-events">
                             {events.map(event => {
-                                return (
-                                    <div key={event.id} className="calendar-event">
-                                        <div className="calendar-event-info">
-                                            <div className="calendar-event-time">10:00 - 12:00</div>
-                                            <div className="calendar-event-title">{event.title}</div>
-                                        </div>
-                                        <button className="calendar-event-delete-button"> &times;</button>
-                                    </div>
-                                )
+                                return <EventItem key={`event_${event.id}`} event={event} />;
                             })}
-
                         </div>
                     </div>
-                )
+                );
             })}
         </div>
     ) : <p>Loading...</p>
