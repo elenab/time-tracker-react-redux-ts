@@ -48,4 +48,4 @@ curl -X POST -H "Content-Type: application/json" -d '{"title": "Learning Typescr
 
 ### Screenshot:
 
-![Screenshot](screenshots.png?raw=true "Screenshot")
+![Screenshot](screenshot.png?raw=true "Screenshot")
