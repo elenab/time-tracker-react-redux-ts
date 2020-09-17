@@ -2,6 +2,10 @@
 This project was creating while taking [Using Typescript with React](https://www.udemy.com/course-dashboard-redirect/?course_id=2321154) course on Udemy.\
 Also, it was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Screenshot:
+
+![Screenshot](screensot.png?raw=true "Screenshot")
+
 ## Available Scripts
 
 In the project directory, you can use:
@@ -44,8 +48,3 @@ Try to post something:
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"title": "Learning Typescript", "dateStart": "2020-09-11T13:00:15.180Z", "dateEnd": "2020-09-11T15:00:00.180Z"}'  http://localhost:3001/events
 ```
-
-
-### Screenshot:
-
-![Screenshot](screensot.png?raw=true "Screenshot")
